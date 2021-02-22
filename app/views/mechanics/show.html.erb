@@ -5,3 +5,16 @@
 <% @mechanic.rides.each do |ride| %>
 <h3><%=ride.name%></h3>
 <% end %>
+
+<section id="add-ride">
+  <h1>Add Ride To Workload:</h1>
+  <%= form_with(url: mechanic_rides_path(@mechanic), local: true) do |f| %>
+    <p>
+      <%= f.label :name, "Mechanic Name" %><br/>
+      <%= f.select(:ride_id, options_for_select(@ride.map { |u| [u.name]}) ) %>
+    </p>
+    <p>
+      <%= f.submit 'Submit' %>
+    </p>
+  <% end %>
+</section>

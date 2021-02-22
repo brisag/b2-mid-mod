@@ -10,7 +10,7 @@ RSpec.describe 'As a visitor' do
       @ride2 = Ride.create!(name: "Roller Coaster", rating: 7, open: true)
       @ride3 = Ride.create!(name: "Batman", rating: 10, open: false)
       @ride4 = Ride.create!(name: "Teacups", rating: 4, open: false)
-      # @ride5 = Ride.create!(title: "Kiddy ride", rating: 2, open: true)
+      @ride5 = Ride.create!(name: "Kiddy ride", rating: 2, open: true)
 
       MechanicRide.create!(mechanic: @mechanic_1, ride: @ride1)
       MechanicRide.create!(mechanic: @mechanic_1, ride: @ride2)
@@ -32,6 +32,31 @@ RSpec.describe 'As a visitor' do
       expect(page).to have_content("#{@ride1.name}")
       expect(page).to have_content("#{@ride2.name}")
       expect(page).to have_content("#{@ride3.name}")
+    end
+
+  it "shows a form to add a ride to their workload" do
+    @ride1 = Ride.create!(name: "Tower of Doom", rating: 9, open: true)
+    @ride2 = Ride.create!(name: "Roller Coaster", rating: 7, open: true)
+    @ride3 = Ride.create!(name: "Batman", rating: 10, open: false)
+    @ride4 = Ride.create!(name: "Teacups", rating: 4, open: false)
+    @ride5 = Ride.create!(name: "Kiddy ride", rating: 2, open: true)
+    @ride6 = Ride.create!(name: "Big Wheel", rating: 5, open: false)
+
+    visit mechanics_path(@mechanic_1)
+
+    within("#add-ride") do
+      expect(page).to have_content("Add Ride To Workload")
+      select('x', :from => :ride_id)
+      click_on 'Submit'
+    end
+
+      within("#rides") do
+        expect(page).to have_content(@ride6.name)
+        expect(page).to have_content(@ride1.name)
+        expect(page).to have_content(@ride2.name)
+        expect(page).to have_content(@ride3.name)
+        expect(page).to have_content(@ride4.name)
+      end
     end
   end
 end
