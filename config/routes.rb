@@ -7,4 +7,5 @@ Rails.application.routes.draw do
 
   resources :mechanics do
     resources :rides, controller: "mechanic_rides", only: [:create]
+  end
 end
