@@ -2,7 +2,23 @@
 <h2><%= @mechanic.name %></h2>
 <p><%= @mechanic.years %></p>
 
+<section id="rides">
 <h3>Rides:</h3>
 <% @mechanic.rides.sort_by_most_thrills.each do |ride| %>
 <p><%= ride.name %> - Rating: <%= ride.rating %></p>
 <% end %>
+</section>
+
+
+<section id="add-ride">
+  <h1>Add Actor To This Movie</h1>
+  <%= form_with(url: mechanic_rides_path(@mechanic), local: true) do |f| %>
+    <p>
+      <%= f.label :name, "Actor Name" %><br/>
+      <%= f.select(:ride_name, options_for_select(@rides.each { |u| [u.name]}) ) %>
+    </p>
+    <p>
+      <%= f.submit 'Submit' %>
+    </p>
+  <% end %>
+</section>
